@@ -1,6 +1,6 @@
 # GnipApi
 
-TODO: Write a gem description
+Ruby Wrapper of Gnip API
 
 ## Installation
 
@@ -18,7 +18,18 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Configuration
+
+    GnipApi.configure do |config|
+      config.user_name = "jparekh@idyllic-software.com"
+      config.password = "idyllic"
+    end
+
+### Search
+    search = GnipApi::Search.new("https://search.gnip.com/accounts/ACCOUNT_NAME/search/prod.json")
+    search.search({:query=>"rails",:publisher=>"twitter",:maxResults=>10,"fromDate=><yyyymmddhhmm>,:toDate=><yyyymmddhhmm>})
+    search.search({:query=>"in_reply_to_status_id:id OR in_reply_to_status_id:id",:publisher=>"twitter",:maxResults=>10,"fromDate=><yyyymmddhhmm>,:toDate=><yyyymmddhhmm>})
+
 
 ## Contributing
 
