@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Amar Daxini"]
   spec.email         = ["amardaxini@gmail.com"]
   spec.description   = %q{Gnip Api libary}
-  spec.summary       = %q{Gnip Api libary}}
+  spec.summary       = %q{Gnip Api libary}
   spec.homepage      = ""
   spec.license       = "MIT"
 
