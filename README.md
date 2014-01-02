@@ -31,7 +31,7 @@ Or install it yourself as:
     search.search({:query=>"in_reply_to_status_id:id OR in_reply_to_status_id:id",:publisher=>"twitter",:maxResults=>10,"fromDate=><yyyymmddhhmm>,:toDate=><yyyymmddhhmm>})
 
 ### Rehydration
-    tweet = GnipApi::Search.new("https://rehydration.gnip.com/accounts/<ACCOUNT_NAME>/publishers/<PUBLISHER>/rehydration/activities.json")s><yyyymmddhhmm>})
+    tweet = GnipApi::Rehydration.new("https://rehydration.gnip.com/accounts/<ACCOUNT_NAME>/publishers/<PUBLISHER>/rehydration/activities.json")s><yyyymmddhhmm>})
     # ["111","222"] is an array of tweet ids 
     tweet.get_tweets(["111","222"])
 
