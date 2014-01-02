@@ -1,18 +1,18 @@
 module GnipApi
-  class Search
+  class Rehydration
     attr_accessor :url,:connection,:options,:response
     
-    # @url https://search.gnip.com/accounts/ACCOUNT_NAME/search/prod.json
+    # @url https://rehydration.gnip.com:443/accounts/<ACCOUNT_NAME>/publishers/<PUBLISHER>/rehydration/activities.json
     
     # 
     def initialize(url)
       @url = URI.parse(url)
       get_connection
     end
-    # @options {:query=>"rule or search string",:publisher=>"twitter"}
-    def search(options={})
-      @options = options
-      @response = @connection.post(@url.path,MultiJson.dump(options))
+
+    def get_tweets(tweet_ids=[])
+      tweet_ids = Array(tweet_ids.collect{|x|x.to_s})
+      @response = @connection.post(@url.path,MultiJson.dump(:ids=>tweet_ids))
       handle_response(@response)
     end
 
@@ -41,17 +41,20 @@ module GnipApi
       MultiJson.load(@response.body) unless @response.body.strip.empty?
     end
 
+
     private
     
     def get_connection
-      
-      @connection = Faraday.new(:url => 'https://search.gnip.com/') do |faraday|
+    
+      @connection = Faraday.new(:url => 'https://rehydration.gnip.com/') do |faraday|
         faraday.request  :url_encoded             # form-encode POST params
         faraday.response :logger               # log requests to STDOUT
         faraday.adapter  :typhoeus # make requests with Net::HTTP
         faraday.basic_auth GnipApi.configuration.user_name,GnipApi.configuration.password
       end
-      
+
     end
+
+
   end
 end
