@@ -11,7 +11,7 @@ module GnipApi
     end
 
     def get_tweets(tweet_ids=[])
-      tweet_ids = Array(tweet_ids.collect{|x|x.to_s})
+      tweet_ids = Array(tweet_ids).collect{|x|x.to_s})
       @response = @connection.post(@url.path,MultiJson.dump(:ids=>tweet_ids))
       handle_response(@response)
     end
