@@ -16,6 +16,11 @@ module GnipApi
       handle_response(@response)
     end
 
+    def count_tweets(options={})
+      @response = @connection.post(@url.path,MultiJson.dump(options))
+      handle_response(@response)
+    end
+
     def handle_response(response)
       raise_errors(@response)
       response

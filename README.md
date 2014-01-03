@@ -28,10 +28,16 @@ Or install it yourself as:
 ### Search
     search = GnipApi::Search.new("https://search.gnip.com/accounts/ACCOUNT_NAME/search/prod.json")
     search.search({:query=>"rails",:publisher=>"twitter",:maxResults=>10,"fromDate=><yyyymmddhhmm>,:toDate=><yyyymmddhhmm>})
-    search.search({:query=>"in_reply_to_status_id:id OR in_reply_to_status_id:id",:publisher=>"twitter",:maxResults=>10,"fromDate=><yyyymmddhhmm>,:toDate=><yyyymmddhhmm>})
+    search.search({:query=>"in_reply_to_status_id:id OR in_reply_to_status_id:id",:publisher=>"twitter",:maxResults=>10,"fromDate=><yyyymmddhhmm>,:toDate=><yyyymmddhhmm>}
+    search.pase_response
+
+### Count Search Tweet    
+    search = GnipApi::Search.new("https://search.gnip.com/accounts/ACCOUNT_NAME/search/prod/counts.json")
+    search.count_tweets({:query=>"rails",:publisher=>"twitter",:bucket=>day)
+    search.parse_response
 
 ### Rehydration
-    tweet = GnipApi::Rehydration.new("https://rehydration.gnip.com/accounts/<ACCOUNT_NAME>/publishers/<PUBLISHER>/rehydration/activities.json")s><yyyymmddhhmm>})
+    tweet = GnipApi::Rehydration.new("https://rehydration.gnip.com/accounts/<ACCOUNT_NAME>/publishers/<PUBLISHER>/rehydration/activities.json")
     # ["111","222"] is an array of tweet ids 
     tweet.get_tweets(["111","222"])
 
