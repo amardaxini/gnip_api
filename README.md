@@ -41,6 +41,23 @@ Or install it yourself as:
     # ["111","222"] is an array of tweet ids 
     tweet.get_tweets(["111","222"])
 
+### Rule
+    rule = GnipApi::Rule.new("https://api.gnip.com/accounts/<account>/publishers/<publisher>/streams/<stream>/<label>/rules.json")
+    
+    # Build Rule
+    rule.build_rule("in_reply_to_status_id:some id","415394104680255489")
+    rule.build_rule("some rule","tag is option")
+
+    # Add Rule
+    rule.add_rules
+
+    # Delete Reule
+    rule.delete_rules
+
+    # Show rules
+    rule = GnipApi::Rule.new("https://api.gnip.com/accounts/<account>/publishers/<publisher>/streams/<stream>/<label>/rules.json")
+    rule.show_rules
+
 ## Contributing
 
 1. Fork it

@@ -1,25 +1,46 @@
 module GnipApi
-  class Search
-    attr_accessor :url,:connection,:options,:response
+  class Rule
+    attr_accessor :rules,:url,:connection,:response
+    # @url https://api.gnip.com/accounts/<account>/publishers/<publisher>/streams/<stream>/<label>/rules.json
+
     
-    # @url https://search.gnip.com/accounts/ACCOUNT_NAME/search/prod.json
-    
-    # 
     def initialize(url)
       @url = URI.parse(url)
+      @rules = []
       get_connection
     end
-    # @options {:query=>"rule or search string",:publisher=>"twitter"}
-    def search(options={})
-      @options = options
-      @response = @connection.post(@url.path,MultiJson.dump(options))
+
+    def build_rule(rule,tag=nil)
+      @rules << {"value"=>rule,"tag"=>tag}
+    end
+
+    def add_rules
+      @response = @connection.post(@url.path,MultiJson.dump(build_rule_options))
       handle_response(@response)
     end
 
-    def count_tweets(options={})
-      @response = @connection.post(@url.path,MultiJson.dump(options))
+    def delete_rules
+     @response = 
+      @connection.delete do |req|
+        req.url @url.path
+        req.headers['Content-Type'] = 'application/json'
+        req.body = MultiJson.dump(build_delete_rules)
+      end
+     
       handle_response(@response)
     end
+    def show_rules
+      @response = @connection.get(@url.path)
+      handle_response(@response)
+    end
+
+    def build_rule_options
+      {"rules"=>@rules.flatten.uniq.compact}  
+    end
+
+    def build_delete_rules
+      {"rules"=>Array(@rules).collect{|rule| {"value"=>rule["value"]}}}
+    end  
 
     def handle_response(response)
       raise_errors(@response)
@@ -45,12 +66,11 @@ module GnipApi
     def parse_response
       MultiJson.load(@response.body) unless @response.body.strip.empty?
     end
-
     private
     
     def get_connection
       
-      @connection = Faraday.new(:url => 'https://search.gnip.com/') do |faraday|
+      @connection = Faraday.new(:url => 'https://api.gnip.com/') do |faraday|
         faraday.request  :url_encoded             # form-encode POST params
         faraday.response :logger               # log requests to STDOUT
         faraday.adapter  :typhoeus # make requests with Net::HTTP
