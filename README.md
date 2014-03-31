@@ -21,8 +21,8 @@ Or install it yourself as:
 ### Configuration
 
     GnipApi.configure do |config|
-      config.user_name = "jparekh@idyllic-software.com"
-      config.password = "idyllic"
+      config.user_name = ""
+      config.password = ""
     end
 
 ### Search
